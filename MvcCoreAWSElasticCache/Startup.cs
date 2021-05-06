@@ -32,7 +32,7 @@ namespace MvcCoreAWSElasticCache
             services.AddDbContextPool<PersonajesContext>(m => m.UseMySql(
                 cadena, ServerVersion.AutoDetect(cadena)
                 ));
-            services.AddTransient<CacheRedisMultiplexer>();
+            //services.AddTransient<CacheRedisMultiplexer>();
             services.AddTransient<ServiceAWSCache>();
             services.AddTransient<PersonajesRepository>();
             services.AddControllersWithViews();
