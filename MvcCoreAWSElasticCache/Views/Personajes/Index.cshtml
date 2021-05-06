@@ -9,6 +9,9 @@
 <p>
     <a asp-action="Create">Create New personaje</a>
 </p>
+<p>
+    <a asp-action="SeleccionarFavorito">Ver favoritos</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -37,9 +40,14 @@
                 @Html.DisplayFor(modelItem => item.Imagen)
             </td>
             <td>
-              
-                @Html.ActionLink("Details", "Details", new { id=item.IdPersonaje }) |
-                
+
+                @Html.ActionLink("Details", "Details", new { id = item.IdPersonaje }) |
+
+            </td>
+            <td>
+
+                @Html.ActionLink("Añadir a favoritos", "SeleccionarFavorito", new { id = item.IdPersonaje }) |
+
             </td>
         </tr>
 }

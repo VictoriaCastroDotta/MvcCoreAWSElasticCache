@@ -6,7 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MvcCoreAWSElasticCache.Data;
+using MvcCoreAWSElasticCache.Helpers;
 using MvcCoreAWSElasticCache.Repositories;
+using MvcCoreAWSElasticCache.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +32,8 @@ namespace MvcCoreAWSElasticCache
             services.AddDbContextPool<PersonajesContext>(m => m.UseMySql(
                 cadena, ServerVersion.AutoDetect(cadena)
                 ));
+            services.AddTransient<CacheRedisMultiplexer>();
+            services.AddTransient<ServiceAWSCache>();
             services.AddTransient<PersonajesRepository>();
             services.AddControllersWithViews();
         }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MvcCoreAWSElasticCache.Models;
 using MvcCoreAWSElasticCache.Repositories;
+using MvcCoreAWSElasticCache.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace MvcCoreAWSElasticCache.Controllers
     public class PersonajesController : Controller
     {
         PersonajesRepository repo;
-        public PersonajesController(PersonajesRepository repo)
+        private ServiceAWSCache service;
+        public PersonajesController(PersonajesRepository repo, ServiceAWSCache service)
         {
             this.repo = repo;
+            this.service = service;
         }
         public IActionResult Index()
         {
@@ -34,6 +37,22 @@ namespace MvcCoreAWSElasticCache.Controllers
         public IActionResult Create(Personaje p)
         {
             this.repo.InsertPersonaje(p.Nombre, p.Imagen);
+            return RedirectToAction("Index");
+        }
+
+        //Devuelve los favoritos utilizando cache
+        public IActionResult Favoritos()
+        {
+            return View(this.service.GetPersonajesCache());
+        }
+
+        public IActionResult SeleccionarFavorito(int id)
+        {
+            //BUSCAMOS AL PERSONAJE EN BASE DE DATOS
+            Personaje p = this.repo.FindPersonaje(id);
+            //GUARDAMOS EN CACHE:
+            this.service.GuardarPersonajes(p);
+            ViewData["MENSAJE"] = "Personaje almacenado";
             return RedirectToAction("Index");
         }
 
